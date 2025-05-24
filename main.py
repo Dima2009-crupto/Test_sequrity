@@ -1,14 +1,29 @@
-from typing import Optional, List, Union
+from typing import Optional, Annotated 
+from uuid import uuid4
+from sqlalchemy import select
+from datetime import datetime, data
+import logging
+import asyncio
 
-from fastapi import FastAPI, HTTPException, status, Depends
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm, HTTPBasic, HTTPBasicCredentials
-from fastapi.concurrency import asynccontextmanager
-from sqlalchemy import select, insert, update
-from sqlalchemy.orm import Session
+#datetime.now()
+
+from fastapi import FastAPI, Query, HTTPException, status, Depends, Request, Response
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from sqlalchemy.ext.asyncio import AsyncSession
 import uvicorn
 
-from models import get_db, User, database
-from pydantic_models import UserModelResponse, UserModel
+from models import Contact, get_db, User, Article, Comment
+from pydantic_models import ContactModel, ContactModelResponse, UserModelResponse, UserModel, ArticleModel, ArticleModelResponse, ArticleRequestMosel, CommentModel, CommentModelResponse 
+from users import get_user, user_router
+
+
+app = FastAPI()
+app.include_router(users_router)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getlogger("test_middleware")
+
+
+
 
 
 @asynccontextmanager
